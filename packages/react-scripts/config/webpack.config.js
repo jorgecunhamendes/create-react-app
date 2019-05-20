@@ -89,33 +89,35 @@ module.exports = function(webpackEnv) {
           require.resolve('react-dev-utils/webpackHotDevClient'),
         paths.resolveModule(paths.resolveApp, entry.module)
       ].filter(Boolean)
-      htmls.push(new HtmlWebpackPlugin(
-        Object.assign(
-          {},
-          {
-            inject: true,
-            template: entry.html,
-            filename: entry.entry,
-            chunks: [entryKey],
-          },
-          isEnvProduction
-            ? {
-                minify: {
-                  removeComments: true,
-                  collapseWhitespace: true,
-                  removeRedundantAttributes: true,
-                  useShortDoctype: true,
-                  removeEmptyAttributes: true,
-                  removeStyleLinkTypeAttributes: true,
-                  keepClosingSlash: true,
-                  minifyJS: true,
-                  minifyCSS: true,
-                  minifyURLs: true,
-                },
-              }
-            : undefined
-        )
-      ))
+      if (entry.html !== undefined && entry.entry !== undefined) {
+        htmls.push(new HtmlWebpackPlugin(
+          Object.assign(
+            {},
+            {
+              inject: true,
+              template: entry.html,
+              filename: entry.entry,
+              chunks: [entryKey],
+            },
+            isEnvProduction
+              ? {
+                  minify: {
+                    removeComments: true,
+                    collapseWhitespace: true,
+                    removeRedundantAttributes: true,
+                    useShortDoctype: true,
+                    removeEmptyAttributes: true,
+                    removeStyleLinkTypeAttributes: true,
+                    keepClosingSlash: true,
+                    minifyJS: true,
+                    minifyCSS: true,
+                    minifyURLs: true,
+                  },
+                }
+              : undefined
+          )
+        ))
+      }
     }
   } else {
     entries['app'] = [
